@@ -1,6 +1,7 @@
-// import css from "./loader.module.css"
 import { Bars } from 'react-loader-spinner';
+
 const Loader = () => {
+  
   return (
     <div className="loaderStyle">
       <Bars

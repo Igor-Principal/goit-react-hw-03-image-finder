@@ -1,7 +1,6 @@
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
-// import Modal from './Modal/Modal';
 import Button from './Button/Button';
 import { Component } from 'react';
 import fetchImg from '../helpers/api.js';
@@ -13,6 +12,7 @@ class App extends Component {
     textFind: '',
     perPage: 12,
     isLoad: false,
+    totalHits: 0,
   };
 
   handleTextChange = value => {
@@ -26,10 +26,14 @@ class App extends Component {
 
       fetchImg(selectPage, this.state.textFind, this.state.perPage)
         .then(data => {
-          this.setState({
-            gallery: data.hits,
-            page: selectPage,
-          });
+          this.setState(
+            {
+              gallery: data.hits,
+              page: selectPage,
+              totalHits: data.totalHits,
+            },
+            console.log(data)
+          );
         })
         .catch(e => console.error('API Error:', e))
         .finally(() => {
@@ -37,7 +41,9 @@ class App extends Component {
         });
     }
   }
+
   handleLoadMore = () => {
+
     const selectPage = this.state.page + 1;
     this.setState({ isLoad: true });
 
@@ -46,6 +52,7 @@ class App extends Component {
         this.setState(prev => ({
           gallery: [...prev.gallery, ...data.hits],
           page: selectPage,
+          totalHits: data.totalHits,
         }));
       })
       .catch(e => console.error('API Error:', e))
@@ -55,13 +62,15 @@ class App extends Component {
   };
 
   render() {
+    
+    const { isLoad, gallery, totalHits, page, perPage } = this.state;
+
     return (
       <div className="App">
         <Searchbar onSubmit={this.handleTextChange} />
-        <ImageGallery data={this.state.gallery} />
-        {this.state.isLoad && <Loader />}
-        {/* <Modal /> */}
-        {this.state.gallery.length > 0 && (
+        <ImageGallery data={gallery} />
+        {isLoad && <Loader />}
+        {gallery.length > 0 && totalHits > page * perPage && !isLoad && (
           <Button onClick={this.handleLoadMore} />
         )}
       </div>
