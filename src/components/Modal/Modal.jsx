@@ -1,9 +1,9 @@
-
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 
 class Modal extends Component {
   state = {};
-  
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeydown);
   }
@@ -34,5 +34,10 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default Modal;

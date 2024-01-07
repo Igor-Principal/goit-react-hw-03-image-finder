@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 
 const Searchbar = ({ onSubmit }) => {
-  
   const handleSubmit = e => {
     e.preventDefault();
     const inputValue = e.target.elements.search.value;
@@ -12,7 +12,7 @@ const Searchbar = ({ onSubmit }) => {
     <header className="Searchbar">
       <form className="SearchForm" onSubmit={handleSubmit}>
         <button type="submit" className="SearchForm-button">
-          <span className="SearchForm-button-label">Search</span>
+          Find
         </button>
 
         <input
@@ -26,6 +26,10 @@ const Searchbar = ({ onSubmit }) => {
       </form>
     </header>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;
