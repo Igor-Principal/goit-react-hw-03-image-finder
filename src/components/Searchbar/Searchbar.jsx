@@ -5,18 +5,18 @@ const Searchbar = ({ onSubmit }) => {
     e.preventDefault();
     const inputValue = e.target.elements.search.value;
     onSubmit(inputValue);
-    console.log(e.target.elements);
+    e.currentTarget.reset();
   };
 
   return (
-    <header className="searchbar">
-      <form className="form" onSubmit={handleSubmit}>
-        <button type="submit" className="button">
-          <span className="button-label">Search</span>
+    <header className="Searchbar">
+      <form className="SearchForm" onSubmit={handleSubmit}>
+        <button type="submit" className="SearchForm-button">
+          <span className="SearchForm-button-label">Search</span>
         </button>
 
         <input
-          className="input"
+          className="SearchForm-input"
           type="text"
           name="search"
           autoComplete="off"

@@ -1,8 +1,6 @@
-import css from './button.module.css';
-
-const Button = () => {
+const Button = ({ onClick }) => {
   return (
-    <button type="submit" className={css.button}>
+    <button type="submit" className="Button" onClick={onClick}>
       Load more
     </button>
   );
