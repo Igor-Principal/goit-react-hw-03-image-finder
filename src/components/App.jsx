@@ -8,32 +8,41 @@ import fetchImg from '../helpers/api.js';
 class App extends Component {
   state = {
     gallery: [],
-    page: 0,
+    page: 1,
     textFind: '',
     perPage: 12,
     isLoad: false,
     totalHits: 0,
   };
 
-  handleTextChange = value => {
-    this.setState({ textFind: value.toLowerCase().trim() });
+  handleTextSubmit = value => {
+    
+    if (!value) return;
+
+    this.setState({
+      textFind: value,
+      gallery: [],
+      page: 1,
+      isLoad: false,
+      totalHits: 0,
+    });
   };
 
   componentDidUpdate(_, prevState) {
-    if (prevState.textFind !== this.state.textFind) {
-      const selectPage = this.state.page + 1;
-      this.setState({ isLoad: true, gallery: [] });
+    if (
+      prevState.textFind !== this.state.textFind ||
+      prevState.page !== this.state.page
+    ) {
+      const selectPage = this.state.page;
+      this.setState({ isLoad: true });
 
       fetchImg(selectPage, this.state.textFind, this.state.perPage)
         .then(data => {
-          this.setState(
-            {
-              gallery: data.hits,
-              page: selectPage,
-              totalHits: data.totalHits,
-            },
-            console.log(data)
-          );
+          this.setState({
+            gallery: data.hits,
+            page: selectPage,
+            totalHits: data.totalHits,
+          });
         })
         .catch(e => console.error('API Error:', e))
         .finally(() => {
@@ -43,31 +52,15 @@ class App extends Component {
   }
 
   handleLoadMore = () => {
-
-    const selectPage = this.state.page + 1;
-    this.setState({ isLoad: true });
-
-    fetchImg(selectPage, this.state.textFind, this.state.perPage)
-      .then(data => {
-        this.setState(prev => ({
-          gallery: [...prev.gallery, ...data.hits],
-          page: selectPage,
-          totalHits: data.totalHits,
-        }));
-      })
-      .catch(e => console.error('API Error:', e))
-      .finally(() => {
-        this.setState({ isLoad: false });
-      });
+    this.setState(prev => ({ page: prev.page + 1, isLoad: true }));
   };
 
   render() {
-    
     const { isLoad, gallery, totalHits, page, perPage } = this.state;
 
     return (
       <div className="App">
-        <Searchbar onSubmit={this.handleTextChange} />
+        <Searchbar onSubmit={this.handleTextSubmit} />
         <ImageGallery data={gallery} />
         {isLoad && <Loader />}
         {gallery.length > 0 && totalHits > page * perPage && !isLoad && (

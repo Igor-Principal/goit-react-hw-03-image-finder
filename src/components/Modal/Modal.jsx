@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 
 class Modal extends Component {
-  state = {};
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeydown);
   }

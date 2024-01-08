@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Searchbar = ({ onSubmit }) => {
   const handleSubmit = e => {
     e.preventDefault();
-    const inputValue = e.target.elements.search.value;
+    const inputValue = e.target.elements.search.value.toLowerCase().trim();
     onSubmit(inputValue);
     e.currentTarget.reset();
   };
