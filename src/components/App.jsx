@@ -16,7 +16,6 @@ class App extends Component {
   };
 
   handleTextSubmit = value => {
-    
     if (!value) return;
 
     this.setState({
@@ -38,11 +37,11 @@ class App extends Component {
 
       fetchImg(selectPage, this.state.textFind, this.state.perPage)
         .then(data => {
-          this.setState({
-            gallery: data.hits,
+          this.setState(prev => ({
+            gallery: [...prev.gallery, ...data.hits],
             page: selectPage,
             totalHits: data.totalHits,
-          });
+          }));
         })
         .catch(e => console.error('API Error:', e))
         .finally(() => {
