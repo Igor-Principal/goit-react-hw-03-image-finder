@@ -29,7 +29,7 @@ class ImageGalleryItem extends Component {
         />
         {this.state.isOpen && (
           <Modal
-            imageUrl={this.props.webformatURL}
+            imageUrl={this.props.largeImageURL}
             onClose={this.handleCloseModal}
           />
         )}
